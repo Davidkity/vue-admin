@@ -58,7 +58,16 @@ module.exports = {
         https: false, //编译失败是刷新页面
         hot: true, //开启热加载
         hotOnly: false,
-        proxy: null, //设置代理
+      //  proxy: null, //设置代理
+        proxy: {    //跨域网址配置
+            '/api':{
+                target: "http://www.web-jshtml.cn/productapi", //API服务地址
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api': ''     //值的含义是接 http://www.web-jshtml.cn/productapi 网址的路径 （/xx）
+                }
+            }
+        },
         overlay: { // 全屏模式下是否显示脚本错误
             warnings: true,
             errors: true
