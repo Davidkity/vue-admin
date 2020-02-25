@@ -13,18 +13,18 @@ module.exports = {
 
     },
     configureWebpack: (config) => {
-     //     config.resolve = { // 配置解析别名
-     //         extensions: ['.js','.json','.vue'],
-     //         alias: {
-     //            '@': path.resolve(__dirname, './src'),
-     //             'public': path.resolve(__dirname, './public'),
-     //             'compoments': path.resolve(__dirname, './src/components'),
-     //             'common': path.resolve(__dirname, './src/common'),
-     //             'api': path.resolve(__dirname, './src/api'),
-     //             'view': path.resolve(__dirname, './src/view'),
-     //             'data': path.resolve(__dirname, './src/data')
-     //        }
-     //   }
+         config.resolve = { // 配置解析别名
+             extensions: ['.js','.json','.vue'],  //自动添加文件名后缀
+             alias: {
+                '@': path.resolve(__dirname, './src'),
+                 'public': path.resolve(__dirname, './public'),
+                 'compoments': path.resolve(__dirname, './src/components'),
+                 'common': path.resolve(__dirname, './src/common'),
+                 'api': path.resolve(__dirname, './src/api'),
+                 'view': path.resolve(__dirname, './src/view'),
+                 'data': path.resolve(__dirname, './src/data')
+            }
+       }
     },
     //生产环境是否生成 sourceMap文件
     productionSourceMap: false,
