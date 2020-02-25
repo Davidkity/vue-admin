@@ -7,32 +7,31 @@
           <!-- 表单开始 -->
             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm"  class="login-form" size="medium">
                 <el-form-item  prop="username" class="item-form">
-                    <!-- for 是用来绑定input框的，达到点击label，input框也能获取到焦点 -->
-                    <label for="username">邮箱</label>  
-                    <el-input id="username" type="text" v-model="ruleForm.username" autocomplete="off"></el-input>
+                    <label>邮箱</label>
+                    <el-input type="text" v-model="ruleForm.username" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item  prop="password" class="item-form">
-                    <label for="password">密码</label>
-                    <el-input id="password"  v-model="ruleForm.password" autocomplete="off" minlength=6 maxlength=20></el-input>
+                    <label>密码</label>
+                    <el-input  v-model="ruleForm.password" autocomplete="off" minlength=6 maxlength=20></el-input>
                 </el-form-item>
                 <el-form-item  prop="passwords" class="item-form" v-if="model === 'register'">
-                    <label for="passwords">重复密码</label>
-                    <el-input id="passwords"  v-model="ruleForm.passwords" autocomplete="off" minlength=6 maxlength=20></el-input>
+                    <label>重复密码</label>
+                    <el-input  v-model="ruleForm.passwords" autocomplete="off" minlength=6 maxlength=20></el-input>
                 </el-form-item>
                 <el-form-item  prop="code" class="item-form">
-                    <label for="code">验证码</label>
+                    <label>验证码</label>
                     <el-row :gutter="10">
                         <el-col :span="15">
-                            <el-input id="code" v-model.number="ruleForm.code" minlength=6 maxlength=6></el-input>
+                            <el-input v-model.number="ruleForm.code" minlength=6 maxlength=6></el-input>
                         </el-col>
                         <el-col :span="9">
-                            <el-button type="success" class="block" @click="getSms()">获取验证码</el-button>
+                            <el-button type="success" class="block">获取验证码</el-button>
                         </el-col>
                     </el-row>
                     
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="danger" @click="submitForm('ruleForm')" class="login-btn block" :disabled="loginButtonStatus">{{model === "login" ? "登录" : "注册"}}</el-button>
+                    <el-button type="danger" @click="submitForm('ruleForm')" class="login-btn block">提交</el-button>
                     
             </el-form-item>
 </el-form>
@@ -40,8 +39,6 @@
   </div>
 </template>
 <script>
-import axios from 'axios'
-import {GetSms} from "@/api/login"
 //运用到什么接口，就导入什么接口
 import { reactive,ref,onMounted } from '@vue/composition-api';
 import { stripscript,validateEmail,validatePass,validateCodeValue } from '@/utils/validate'
@@ -71,7 +68,7 @@ export default {
         value = ruleForm.password;
         
         if (value === '') {
-            callback(new Error('请输入密码'));
+            callback(new Error('请再次输入密码'));
         } else if (!validatePass(value)) {
             callback(new Error('密码为6至20为的数组+字母'));
         } else {
@@ -121,8 +118,6 @@ export default {
     // ref 用于声明基础类型的数据 .value 来取值；isRef() 用于判断是否为基础数据类型
     // toRefs() 将对象类型转化为基础数据类型
     const model = ref('login');
-    // 登录按钮的状态（是否禁用）
-    const loginButtonStatus = ref(true);
     // 表单绑定数据
     const ruleForm = reactive( {
             username: '',
@@ -157,43 +152,7 @@ export default {
         model.value = data.type;
     });
 
-    /**
-     * 获取验证码
-     */
-    const getSms = (() => {
-        
-        //进行提示
-        if(ruleForm.username == ''){
-            context.root.$message.error('用户名不能为空！！');
-            return false;
-        }  
-        //前端验证邮箱格式
-        if(!validateEmail(ruleForm.username)){
-            context.root.$message.error('用户名的格式不正确，请重新输入！！');
-            return false;
-        }
-        //请求验证码的接口
-        let data = {username: ruleForm.username};
-        GetSms(data).then(response => {
-
-        }).catch(error => {
-            console.log(error);
-        });
-    })
-    /**
-     * 提交表单
-     */
     const submitForm = (formName => {
-
-        axios.get('/user?ID=12345')
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            }
-    );
-
         context.refs[formName].validate((valid) => {
             if (valid) {
             alert('submit!');
@@ -209,7 +168,7 @@ export default {
      */
     //挂载完成后
     onMounted(() => {
-        
+
     })
 
     return {
@@ -218,12 +177,12 @@ export default {
         ruleForm,
         rules,
         toggleMmeu,
-        submitForm,
-        getSms,
-        loginButtonStatus
+        submitForm
     }
   },
-  
+  data() {
+    
+  },
   
   
 }
