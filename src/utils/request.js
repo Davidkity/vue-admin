@@ -6,7 +6,7 @@ import { Message } from 'element-ui';
 const BASEURL = process.env.NODE_ENV === "production" ? "" : "/api";
 const service = axios.create({
     baseURL: BASEURL,  // http://192.168.0.104:8080/api == http://www.web-jshtml.cn/productapi
-    timeout: 1000,
+    timeout: 10000,     //延时时间设置，超过就不会去请求
 });
 //获取当前的环境   
 console.log(process.env.NODE_ENV);
@@ -29,9 +29,9 @@ service.interceptors.response.use(function (response) {
     if(data.resCode !== 0){
         Message.error(data.message);
         return Promise.reject(data);    //跑的是对应的 .vue 文件方法中的 catch 部分
-      //  return Promise.resolve(data); //跑的是对应的 .vue 文件方法中的 then 部分
     }else{
         return response;
+        //  return Promise.resolve(data); //跑的是对应的 .vue 文件方法中的 then 部分
     }
   }, function (error) {
     // 对响应错误做点什么
