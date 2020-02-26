@@ -40,8 +40,9 @@
   </div>
 </template>
 <script>
-import axios from 'axios'
-import {GetSms,Register,Login} from "@/api/login"
+// JS实现的base64加密、md5加密及sha1加密
+import sha1 from "js-sha1";
+import {GetSms,Register,Login} from "@/api/login";
 //运用到什么接口，就导入什么接口
 import { reactive,ref,onMounted } from '@vue/composition-api';
 import { stripscript,validateEmail,validatePass,validateCodeValue } from '@/utils/validate'
@@ -163,14 +164,32 @@ export default {
         data.current = true;
         //修改模块值
         loginButton.model = data.type;
-        //重置表单数据
-        context.refs.loginForm.resetFields();
+        resetFormDate();
         //重置验证码按钮文本内容
         codeButton.text = "获取验证码";
         //重置登录(注册)按钮为默认不可点的状态
-        loginButton.status = true;
+        clearCountDown();
     });
-
+    /**
+     * 重置表单数据
+     */
+    const resetFormDate = (() => {
+        //重置表单数据
+        context.refs.loginForm.resetFields();
+    });
+    /**
+     * 验证码按钮状态修改
+     */
+    const updateCodeButtonStatus = ((params) =>{
+        codeButton.status = params.status;
+        codeButton.text = params.text;
+    });
+    /**
+     * 登录、注册按钮可选状态的修改
+     */
+    const updateLoginButtonStatus = ((params) => {
+        loginButton.status = params.status;
+    });
     /**
      * 获取验证码
      */
@@ -192,9 +211,10 @@ export default {
            // module: loginButton.model
         };
         //修改验证码按钮的状态
-        codeButton.status = true;
-        //修改验证码按钮的文本
-        codeButton.text = "发送中";
+        updateCodeButtonStatus({
+            status: true,
+            text: "发送中"
+        });
         //模拟延时请求 3秒
         setTimeout(() => {
             GetSms(data).then(response => {
@@ -205,7 +225,9 @@ export default {
                     type: "success"
                 });
                 //启用登录或注册按钮
-                loginButton.status = false;
+                updateLoginButtonStatus({
+                    status: false
+                });
                 //调定时器，倒计时
                 countDown(5);
             }).catch(error => {
@@ -233,7 +255,7 @@ export default {
     const login = (() => {
         let requestData = {
             username: ruleForm.username,
-            password: ruleForm.password,
+            password: sha1(ruleForm.password),
             code: ruleForm.code
         }
         Login(requestData).then(response => {
@@ -250,7 +272,7 @@ export default {
     const register = (() => {
         let requestData = {
             username: ruleForm.username,
-            password: ruleForm.password,
+            password: sha1(ruleForm.password),
             code: ruleForm.code
         }
         Register(requestData).then(response => {
@@ -281,8 +303,10 @@ export default {
             time--;
             if(time === 0){
                 clearInterval(timer.value);
-                codeButton.status = false;
-                codeButton.text = "再次获取";
+                updateCodeButtonStatus({
+                    status: false,
+                    text: "再次获取"
+                });
             }else{
                 codeButton.text = `倒计时${time}秒`;
             }
@@ -293,8 +317,14 @@ export default {
      */
     const clearCountDown = (() =>{
         // 还原验证码按钮默认状态
-        codeButton.status = false;
-        codeButton.text = "获取验证码";
+        updateCodeButtonStatus({
+            status: false,
+            text: "获取验证码"
+        });
+        // 登录、注册按钮不可选
+        updateLoginButtonStatus({
+            status: true
+        });
         // 清除倒计时计时器
         clearInterval(timer.value);
     });
