@@ -255,13 +255,19 @@ export default {
     const login = (() => {
         let requestData = {
             username: ruleForm.username,
-            password: sha1(ruleForm.password),
+          //  password: sha1(ruleForm.password),
+            password: ruleForm.password,
             code: ruleForm.code
         }
         Login(requestData).then(response => {
             console.log("登录");
             console.log(response);
             clearCountDown();
+
+            // 路由跳转
+            context.root.$router.push({
+                name: "Console"
+            });
         }).catch(error => {
 
         });
