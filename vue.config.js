@@ -70,7 +70,7 @@ module.exports = {
       //  proxy: null, //设置代理
         proxy: {    //跨域网址配置
             '/api':{
-                target: "http://www.web-jshtml.cn/productapi", //API服务地址
+                target: "http://www.web-jshtml.cn/productapi/token", //API服务地址
                 changeOrigin: true,
                 pathRewrite: {
                     '^/api': ''     //值的含义是接 http://www.web-jshtml.cn/productapi 网址的路径 （/xx）

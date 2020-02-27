@@ -44,7 +44,7 @@
 import sha1 from "js-sha1";
 import {GetSms,Register,Login} from "@/api/login";
 //运用到什么接口，就导入什么接口
-import { reactive,ref,onMounted } from '@vue/composition-api';
+ import { reactive, ref, isRef, toRefs, onMounted, computed } from "@vue/composition-api";
 import { stripscript,validateEmail,validatePass,validateCodeValue } from '@/utils/validate'
 
 export default {
@@ -259,9 +259,9 @@ export default {
             password: ruleForm.password,
             code: ruleForm.code
         }
-        Login(requestData).then(response => {
-            console.log("登录");
-            console.log(response);
+        context.root.$store.dispatch("app/login",requestData).then(response => {
+        // Login(requestData).then(response =>{
+            // console.log(response);
             clearCountDown();
 
             // 路由跳转

@@ -4,12 +4,15 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store/index";
 import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+import "element-ui/lib/theme-chalk/index.css";
+import "./router/premit";
 import "./icons/index";   // 引入全局文件（图标）
 
 Vue.use(ElementUI);
 Vue.use(VueCompositionApi);
 Vue.config.productionTip = false;
+
+
 
 // runtime (运行模式)
 new Vue({

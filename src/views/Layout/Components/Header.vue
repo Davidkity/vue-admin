@@ -4,24 +4,44 @@
         <div class="pull-right ">
             <div class="user-info pull-left">
                 <img src="../../../assets/images/face.jpg" alt="">
-                管理员
+                {{ username}}
             </div>
-            <div class="header-icon pull-left"><svg-icon iconClass="exit" className="exit" /></div>
+            <div class="header-icon pull-left" @click="exit">
+                <svg-icon iconClass="exit" className="exit" />
+            </div>
         </div>
     </div>
 </template>
 <script>
+import { computed } from "@vue/composition-api";
 export default {
     name: "layoutHeader",
 
     setup(props, { root }){
+
         const navMenuState = () =>{
             root.$store.commit('app/SET_COLLAPSE');
             // root.$store.dispatch("setMenuStatus");
+        };
+
+        const username = computed(() => root.$store.state.app.username);
+
+        // 退出
+        const exit = () => {
+            console.log("退出。。。");
+            root.$store.dispatch("app/exit").then(() => {
+                console.log("路由跳转前");
+                root.$router.push({
+                    name: "Login"
+                });
+                console.log("路由跳转后");
+            })
         }
 
         return {
-            navMenuState
+            navMenuState,
+            username,
+            exit
         }
     }
 }
