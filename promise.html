@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // resolve, reject, all, ract
+        // resolve == then , reject == catch
+        let promise = new Promise((resolve, reject) => {
+            resolve();
+        });
+        promise.then(response => {
+            console.log("成功")
+        }).catch(error => {
+            console.log("失败");
+        })    
+
+        // 链式
+        function promise1(status){
+            new Promise((resolve, reject) => {
+                status ? resolve("第一个promise返回成功") : reject("第一个promise返回失败");
+            });
+        }
+        promise1(true).then(response => {
+            console.log(response);
+        }).catch(error => {
+            console.log(error);
+        })
+    </script>
+</body>
+</html>

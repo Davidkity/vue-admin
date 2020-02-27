@@ -28,8 +28,6 @@ export default {
     setup(props){
         const msg = ref("Vue前端代码撸起来");
         const count = ref(10);
-        console.log(props.iconClass);
-        console.log(props.className);
         /**
          * computed: 监听属性变化，并计算属性
          */
