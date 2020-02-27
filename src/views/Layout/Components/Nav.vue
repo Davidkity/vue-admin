@@ -38,7 +38,7 @@ export default {
         /*************************************************************************************
          *  声明数据
          */
-        const isCollapse = computed(() => root.$store.state.isCollapse);
+        const isCollapse = computed(() => root.$store.state.app.isCollapse);
         // 获取所有路由
         const routers = reactive(root.$router.options.routes);
         

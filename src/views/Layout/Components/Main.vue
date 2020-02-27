@@ -8,7 +8,15 @@
 </template>
 <script>
 export default {
-    
+    name: "Main",
+
+    setup(){
+
+
+        return {
+
+        }
+    }
 }
 </script>
 <style lang="scss" scoped>

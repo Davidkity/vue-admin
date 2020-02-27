@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueCompositionApi from '@vue/composition-api';
 import App from "./App.vue";
 import router from "./router";
-import store from "./store";
+import store from "./store/index";
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import "./icons/index";   // 引入全局文件（图标）
