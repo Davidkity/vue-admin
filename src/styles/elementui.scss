@@ -1,0 +1,14 @@
+@import "./config.scss";
+// 定义全局导航栏点击的背景色， !important 将其权限设置为最高
+.el-submenu .el-menu-item.is-active { 
+    font-size: 14px;
+    padding-left: 60px !important;
+    &.is-active {background-color: $menuColor !important;}
+}
+// 修改一级菜单样式
+li.el-submenu {
+    &.is-active.is-opened .el-submenu__title {
+        background-color: $mainMenuColor !important;
+    }
+}
+
