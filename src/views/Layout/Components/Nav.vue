@@ -8,6 +8,7 @@
           text-color="#fff" 
           active-text-color="#fff"
           router>
+        
             <!-- 使用 template 标签来分离 v-for 、v-if，但for中的 key index 不能写入到 template 标签上-->
             <template v-for="(item,index) in routers">
                 <el-submenu v-if="!item.hidden" :key="item.id" :index="index + ''">
@@ -79,11 +80,16 @@ export default {
     background-color: #344a5f; 
     @include webkit(transition,all .3s ease 0s);
 }
+//中和掉 elementUI 组件自带的问题
+.el-menu {border-right: solid 1px #344a5f;}
 
 .open {
-    #nav-wrap {width: $navMenuWidth;}
+    #nav-wrap {width: $navMenuWidth;};
 }
 .close {
-    #nav-wrap {width: $navMenuMinWidth;}
+    #nav-wrap {
+        width: $navMenuMinWidth;
+        border-right: solid 1px #344a5f;
+    }
 }
 </style>
